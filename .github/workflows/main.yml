@@ -1,5 +1,8 @@
 name: CI
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   build:
     name: Build, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
@@ -16,7 +19,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-        version: 8
+          version: 8
 
       - name: Use Node ${{ matrix.node }}
         uses: actions/setup-node@v3
