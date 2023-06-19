@@ -1,6 +1,6 @@
-name: CI
+name: npm publish when merged to main
 on:
-  push:
+  pull_request:
     branches:
       - main
 jobs:
@@ -39,5 +39,30 @@ jobs:
       - name: Test
         run: pnpm test -- --ci --coverage --maxWorkers=2
 
-      - name: Build
-        run: yarn build
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - name: install depx
+        run: pnpm install
+
+      - name: changeset 自动化更新版本
+        run: pnpm changeset-version
+
+      - name: 发布前打包
+        run: pnpm before-publish
+
+      - name: 发布npm 并打 tag
+        run: pnpm changeset-publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: 推送 tag 到 master
+        run: pnpm pnpm push
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
