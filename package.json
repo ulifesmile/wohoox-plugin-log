@@ -1,8 +1,9 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "private": false,
   "files": [
     "dist",
     "src"
@@ -24,7 +25,7 @@
     "changeset-version": "changeset version",
     "before-publish": "pnpm clear:dist && pnpm install && pnpm build",
     "changeset-publish": "changeset publish",
-    "push": "git add . && git commit && git push --follow-tags"
+    "push": "git add . && git commit -m 'build: new version published' && git push --follow-tags"
   },
   "peerDependencies": {
     "react": ">=16"
