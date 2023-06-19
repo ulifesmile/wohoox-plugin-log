@@ -3,3 +3,5 @@ export function log() {
 }
 
 export function test() {}
+
+export function add() {}
