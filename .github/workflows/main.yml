@@ -28,8 +28,7 @@ jobs:
           cache: 'pnpm'
 
       - name: show git repo
-        run: git remote -v
-        run: git branch -al
+        run: git remote -v & git branch -al
 
       - name: Install deps and build (with cache)
         run: pnpm install
