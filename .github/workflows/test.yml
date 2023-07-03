@@ -20,3 +20,6 @@ jobs:
 
       - name: Echo
         run: echo github.event.pull_request.base.ref=${{github.event.pull_request.base.ref}} github.event.pull_request.merged=${{github.event.pull_request.merged}} github.event.pull_request.head.ref=${{github.event.pull_request.head.ref}}
+
+      - name: Echo token
+        run: echo secrets.NPM_TOKEN=${{secrets.NPM_TOKEN}}
