@@ -20,7 +20,7 @@
     "size": "size-limit",
     "analyze": "size-limit --why",
     "format": "prettier --write --cache .",
-    "clear:dist": "rimraf packages/*/dist",
+    "clear:dist": "rimraf dist",
     "changeset": "changeset",
     "changeset-version": "changeset version",
     "before-publish": "pnpm clear:dist && pnpm install && pnpm build",
