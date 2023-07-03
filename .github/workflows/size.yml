@@ -11,9 +11,8 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
-          
+
       - uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           clean_script: cleanup
-          package_manager: pnpm
