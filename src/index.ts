@@ -6,4 +6,4 @@ export function test() {}
 
 export function add() {}
 
-export function remove () {}
+export function remove() {}
