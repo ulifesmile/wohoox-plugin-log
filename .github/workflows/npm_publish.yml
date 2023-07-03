@@ -42,6 +42,8 @@ jobs:
 
       - name: Update version automatic by changeset
         run: pnpm changeset-version
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Build before publish
         run: pnpm before-publish
