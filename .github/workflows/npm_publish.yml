@@ -11,7 +11,7 @@ jobs:
       matrix:
         node: ['16.x', '18.x']
         os: [ubuntu-latest]
-    if: github.event.pull_request.base.ref == 'refs/heads/main' && github.event.pull_request.merged && (startsWith(github.event.pull_request.head.ref, 'refs/heads/feature/') || startsWith(github.event.pull_request.head.ref, 'refs/heads/fix/'))
+    if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged && (startsWith(github.event.pull_request.head.ref, 'feature/') || startsWith(github.event.pull_request.head.ref, 'fix/'))
 
     steps:
       - name: Checkout repo
