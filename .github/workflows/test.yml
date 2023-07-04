@@ -4,16 +4,14 @@ on:
     types:
       - closed
 
-environment:
-  name: NPM_ACCESS_TOKEN
-
-env:
-  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
 jobs:
   validate:
     name: PR check, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    environment:
+      name: NPM_ACCESS_TOKEN
+    env:
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
     strategy:
       matrix:
         node: ['16.x', '18.x']
