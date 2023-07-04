@@ -47,14 +47,24 @@ jobs:
       - name: Install deps and build (with cache)
         run: pnpm install
 
-      - name: Update version automatic by changeset
-        run: pnpm changeset-version
+      # - name: Update version automatic by changeset
+      #   run: pnpm changeset-version
 
-      - name: Build before publish
-        run: pnpm before-publish
+      # - name: Build before publish
+      #   run: pnpm before-publish
 
-      - name: Publish and tag
-        run: pnpm changeset-publish
+      # - name: Publish and tag
+      #   run: pnpm changeset-publish
 
-      - name: Push to github
-        run: pnpm push
+      # - name: Push to github
+      #   run: pnpm push
+
+      - name: create and publish versions
+        uses: changesets/action@v1
+        with:
+          version: pnpm changeset-version
+          commit: "chore: update versions"
+          title: "chore: update versions"
+          publish: pnpm before-publish & pnpm changeset-publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
