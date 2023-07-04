@@ -4,12 +4,6 @@ on:
     types:
       - closed
 
-environment:
-  name: NPM_ACCESS_TOKEN
-
-env:
-  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
 jobs:
   validate:
     name: PR check, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
@@ -30,6 +24,11 @@ jobs:
   publish:
     needs: validate
     runs-on: ubuntu-latest
+    environment:
+      name: NPM_ACCESS_TOKEN
+
+    env:
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
