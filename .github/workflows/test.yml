@@ -3,6 +3,13 @@ on:
   pull_request:
     types:
       - closed
+
+environment:
+  name: NPM_ACCESS_TOKEN
+
+env:
+  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
 jobs:
   validate:
     name: PR check, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
@@ -22,4 +29,4 @@ jobs:
         run: echo github.event.pull_request.base.ref=${{github.event.pull_request.base.ref}} github.event.pull_request.merged=${{github.event.pull_request.merged}} github.event.pull_request.head.ref=${{github.event.pull_request.head.ref}}
 
       - name: Echo token
-        run: echo secrets.NPM_TOKEN=${{secrets.NPM_TOKEN}}
+        run: echo secrets.NPM_TOKEN=${{secrets.NPM_TOKEN}} secrets.GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}

@@ -3,6 +3,13 @@ on:
   pull_request:
     types:
       - closed
+
+environment:
+  name: NPM_ACCESS_TOKEN
+
+env:
+  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
 jobs:
   validate:
     name: PR check, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
@@ -42,16 +49,12 @@ jobs:
 
       - name: Update version automatic by changeset
         run: pnpm changeset-version
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Build before publish
         run: pnpm before-publish
 
       - name: Publish and tag
         run: pnpm changeset-publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Push to github
         run: pnpm push
