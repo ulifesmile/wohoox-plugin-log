@@ -25,7 +25,8 @@
     "changeset-version": "changeset version",
     "before-publish": "pnpm clear:dist && pnpm install && pnpm build",
     "changeset-publish": "changeset publish",
-    "push": "git add . && git commit -m 'build: new version published' && git push --follow-tags"
+    "push": "git add . && git commit -m 'build: new version published' && git push --follow-tags",
+    "ci:publish": "pnpm before-publish && pnpm publish -r"
   },
   "peerDependencies": {
     "react": ">=16"
