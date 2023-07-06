@@ -54,6 +54,9 @@ jobs:
       - name: Update version automatic by changeset
         run: pnpm changeset-version
 
+      - name: Check changeset source
+        if: contains(steps.version.outputs.log, 'All files have been updated')
+
       - name: Package version
         run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
 
@@ -61,7 +64,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git commit -a -m "chore(version): new version and tag v${env.PACKAGE_VERSION}"
+          git commit -a -m "chore(version): new version and tag v${{ env.PACKAGE_VERSION }}"
 
       - name: Create tag
         run: pnpm changeset-tag
@@ -71,12 +74,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-
-
-      - name: Release and tag
-        uses: changesets/action@v1
-        with:
-          commit: "chore: update versions ${env.PACKAGE_VERSION}"
-          title: "chore: update versions ${env.PACKAGE_VERSION}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
