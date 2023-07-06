@@ -52,11 +52,17 @@ jobs:
         run: pnpm install
 
       - name: Update version automatic by changeset
+        id: version
         run: pnpm changeset-version
 
       - name: Check changeset source
-        if: contains(steps.version.outputs.log, 'All files have been updated')
-        run: echo "changeset check success, continue...."
+        run: |
+         if [[ ! "${{ steps.version.outputs.log }}" =~ "All files have been updated" ]]; then
+            echo "No available changeset source files. Aborting workflow."
+            exit 1
+          fi
+          
+          echo "Continuing with the workflow"
 
       - name: Package version
         run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
