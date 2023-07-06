@@ -22,6 +22,7 @@
     "format": "prettier --write --cache .",
     "clear:dist": "rimraf dist",
     "changeset": "changeset",
+    "changeset-tag": "changeset tag",
     "changeset-version": "changeset version",
     "before-publish": "pnpm clear:dist && pnpm install && pnpm build",
     "changeset-publish": "changeset publish",

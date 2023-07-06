@@ -1,8 +1,11 @@
 name: Code check
-on:
-  pull_request:
-    branch:
-      - main
+
+on: [pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     name: lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
