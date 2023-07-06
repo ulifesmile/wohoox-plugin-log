@@ -25,6 +25,20 @@ jobs:
       - name: Show git repo
         run: git remote -v & git branch -al
 
+      - name: Get PR head SHA
+        id: pr-info
+        run: echo "::set-output name=sha::${{ github.event.pull_request.head.sha }}" && echo github.event.pull_request.head.sha=${{ github.event.pull_request.head.sha }}
+
+      - name: Check changeset source
+        run: |
+          if [[ $(git diff --name-only $(git merge-base origin/main ${{ steps.pr-info.outputs.sha }}) -- path/to/folder/*.md) ]]; then
+            echo "Continuing with the workflow"
+          else
+            echo "No available changeset source files. Aborting workflow."
+            exit 1
+          fi
+
+
   release:
     needs: validate
     runs-on: ubuntu-latest
@@ -54,15 +68,6 @@ jobs:
       - name: Update version automatic by changeset
         id: version
         run: pnpm changeset-version
-
-      - name: Check changeset source
-        run: |
-         if [[ ! "${{ steps.version.outputs.log }}" =~ "All files have been updated" ]]; then
-            echo "No available changeset source files. Aborting workflow."
-            exit 1
-          fi
-          
-          echo "Continuing with the workflow"
 
       - name: Package version
         run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
