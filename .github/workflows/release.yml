@@ -1,0 +1,82 @@
+name: Release and tag
+on:
+  pull_request:
+    types:
+      - closed
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: PR check, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ['16.x', '18.x']
+        os: [ubuntu-latest]
+    if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged && github.event.pull_request.head.ref === 'release'
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Show git repo
+        run: git remote -v & git branch -al
+
+  release:
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: NPM_ACCESS_TOKEN
+
+    env:
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install deps and build (with cache)
+        run: pnpm install
+
+      - name: Update version automatic by changeset
+        run: pnpm changeset-version
+
+      - name: Package version
+        run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
+
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "chore(version): new version and tag v${env.PACKAGE_VERSION}"
+
+      - name: Create tag
+        run: pnpm changeset-tag
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+
+      - name: Release and tag
+        uses: changesets/action@v1
+        with:
+          commit: "chore: update versions ${env.PACKAGE_VERSION}"
+          title: "chore: update versions ${env.PACKAGE_VERSION}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
