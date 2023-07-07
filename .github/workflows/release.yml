@@ -24,6 +24,11 @@ jobs:
 
       - name: Show git repo
         run: git remote -v & git branch -al
+        
+      - name: Print PR Information
+        run: |
+          echo "Pull Request Information:"
+          echo "${{ toJson(github.event.pull_request) }}"
 
       - name: Check changeset source
         run: |
