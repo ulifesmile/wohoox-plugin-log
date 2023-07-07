@@ -25,20 +25,6 @@ jobs:
       - name: Show git repo
         run: git remote -v & git branch -al
 
-      - name: Get PR head SHA
-        id: pr-info
-        run: echo "::set-output name=sha::${{ github.event.pull_request.head.sha }}" && echo github.event.pull_request.head.sha=${{ github.event.pull_request.head.sha }}
-
-      - name: Check changeset source
-        run: |
-          if [[ $(git diff --name-only $(git merge-base origin/main ${{ steps.pr-info.outputs.sha }}) -- path/to/folder/*.md) ]]; then
-            echo "Continuing with the workflow"
-          else
-            echo "No available changeset source files. Aborting workflow."
-            exit 1
-          fi
-
-
   release:
     needs: validate
     runs-on: ubuntu-latest
@@ -55,10 +41,9 @@ jobs:
         with:
           version: 8
 
-      - name: Use Node ${{ matrix.node }}
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
 

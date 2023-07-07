@@ -1,0 +1,38 @@
+name: Changeset source file check
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'release'
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'pnpm'
+
+      - name: Check for new .md files
+        run: |
+          if [[ $(git diff --name-only ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} -- .changeset/*.md) ]];then
+            echo "Found new .md files in .changeset folder."
+          else
+            echo "No new .md files found in .changeset folder. Failing the workflow."
+            exit 1
+          fi
