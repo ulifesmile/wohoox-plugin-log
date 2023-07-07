@@ -24,15 +24,10 @@ jobs:
 
       - name: Show git repo
         run: git remote -v & git branch -al
-        
-      - name: Print PR Information
-        run: |
-          echo "Pull Request Information:"
-          echo "${{ toJson(github.event.pull_request) }}"
 
       - name: Check changeset source
         run: |
-          if [[ $(git diff --name-only ${{ github.event.pull_request.base.sha }}^ ${{ github.event.pull_request.base.sha }} -- .changeset/*.md) ]]; then
+          if [[ $(git diff --name-only ${{ github.event.pull_request.merge_commit_sha }}^ ${{ github.event.pull_request.merge_commit_sha }} -- .changeset/*.md) ]]; then
             echo "Continuing with the workflow"
           else
             echo "No available changeset source files. Aborting workflow."
