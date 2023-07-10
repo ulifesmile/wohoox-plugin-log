@@ -1,7 +1,7 @@
 name: Publish NPM Package
 on:
   release:
-    types: [published]
+    types: [created]
 
 jobs:
   publish:
@@ -18,7 +18,7 @@ jobs:
         with:
           version: 8
 
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
