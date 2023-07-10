@@ -1,5 +1,11 @@
 # wohoox-plugin-log
 
+## 0.0.7
+
+### Patch Changes
+
+- 182306f: publish ci
+
 ## 0.0.6
 
 ### Patch Changes
