@@ -1,5 +1,11 @@
 # wohoox-plugin-log
 
+## 0.0.6
+
+### Patch Changes
+
+- e412874: tag on main
+
 ## 0.0.5
 
 ### Patch Changes
