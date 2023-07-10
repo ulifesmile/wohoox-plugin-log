@@ -1,5 +1,12 @@
 # wohoox-plugin-log
 
+## 0.0.10
+
+### Patch Changes
+
+- fb50fc8: add 5
+- ee67575: publish remove -r
+
 ## 0.0.9
 
 ### Patch Changes
