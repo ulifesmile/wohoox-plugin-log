@@ -2,4 +2,4 @@
 'wohoox-plugin-log': patch
 ---
 
-publish check
+publish remove -r

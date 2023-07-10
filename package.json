@@ -1,5 +1,5 @@
 {
-  "version": "0.0.5",
+  "version": "0.0.9",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -27,7 +27,7 @@
     "before-publish": "pnpm clear:dist && pnpm install && pnpm build",
     "changeset-publish": "changeset publish",
     "push": "git add . && git commit -m 'build: new version published' && git push --follow-tags",
-    "ci:publish": "pnpm before-publish && pnpm publish -r --no-git-checks"
+    "ci:publish": "pnpm before-publish && pnpm publish --no-git-checks"
   },
   "peerDependencies": {
     "react": ">=16"
