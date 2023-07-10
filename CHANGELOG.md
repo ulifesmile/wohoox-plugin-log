@@ -1,30 +1,5 @@
 # wohoox-plugin-log
 
-## 0.0.9
-
-### Patch Changes
-
-- cc2478d: publish check
-- 20675e7: publish on tag push
-
-## 0.0.8
-
-### Patch Changes
-
-- 68f040e: publish on tag push
-
-## 0.0.7
-
-### Patch Changes
-
-- 182306f: publish ci
-
-## 0.0.6
-
-### Patch Changes
-
-- e412874: tag on main
-
 ## 0.0.5
 
 ### Patch Changes
