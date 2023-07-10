@@ -65,7 +65,7 @@ jobs:
         run: |
           git config --local user.email "ulifesmile@protonmail.com"
           git config --local user.name "ulifesmile[bot]"
-          git commit -a -m "chore(version): new version and tag v${{ env.PACKAGE_VERSION }}"
+          git commit -a -m "chore(version): new version v${{ env.PACKAGE_VERSION }}"
 
       - name: Create tag
         run: pnpm changeset-tag
